@@ -12,6 +12,17 @@
   "Show icon for current buffer's major-mode."
   :group 'mode-line)
 
+(defvar major-mode-icons/icons-default-path
+  (concat
+   (file-name-directory (or load-file-name
+                            (buffer-file-name)))
+   "icons")
+  )
+
+(defcustom major-mode-icons/icons-path major-mode-icons/icons-default-path
+  "Path to icons."
+  :group 'major-mode-icons)
+
 
 ;;; separate settings for only active mode-line.
 
@@ -128,7 +139,7 @@
               'mode-line-inactive)
       'display
       (let ((icon-path
-             (concat user-emacs-directory "resources/icon/" icon ".xpm")))
+             (concat major-mode-icons/icons-path icon ".xpm")))
         (if (and (active)
                  (file-exists-p icon-path)
                  (image-type-available-p 'xpm))

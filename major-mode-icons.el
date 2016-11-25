@@ -1,54 +1,42 @@
 ;;; major-mode-icons.el --- display icon for major-mode on mode-line.
-;;; -*- coding: utf-8 -*-
 
 ;;; Commentary:
 
-;; Copyright (C) 2016 Free Software Foundation, Inc.
-
 ;; Authors: stardiviner <numbchild@gmail.com>
-;; Keywords: icons, mode-line
+;; Package-Requires: ((emacs "25.1") (cl-lib "0.5"))
+;; Version: 0.1
+;; Keywords: frames multimedia
 ;; homepage: http://github.com/stardiviner/major-mode-icons
-
-;; This file is part of GNU Emacs.
-
-;; GNU Emacs is free software: you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; GNU Emacs is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
-
-;;; Commentary:
-
-
-
-;;; Requirements:
-
-;; Package-Requires: ((emacs "24.4"))
 
 
 ;;; Code:
 ;;; ----------------------------------------------------------------------------
 
+(require 'cl-lib)
+(require 'cl-extra)
+(require 'map) ; `map-keys'
+
 (defgroup major-mode-icons nil
   "Show icon for current buffer's major-mode."
   :group 'mode-line)
 
-(defvar major-mode-icons--icons-default-path
+(defconst major-mode-icons--icons-default-path
   (concat
    (file-name-directory (or load-file-name
                             (buffer-file-name)))
    "icons")
-  )
+  "Default icons path of major-mode-icons.")
 
 (defcustom major-mode-icons--icons-path major-mode-icons--icons-default-path
   "Path to icons."
+  :group 'major-mode-icons
+  :type 'string)
+
+(defcustom major-mode-icons--mode-name-font "Segoe Print"
+  "The font family used for major mode name."
   :group 'major-mode-icons)
 
 
@@ -57,9 +45,11 @@
 (defvar major-mode-icons--mode-line-selected-window nil)
 
 (defun major-mode-icons--mode-line-record-selected-window ()
+  "Record the current selected window."
   (setq major-mode-icons--mode-line-selected-window (selected-window)))
 
 (defun major-mode-icons--mode-line-update-all ()
+  "Force update mode-line."
   (force-mode-line-update t))
 
 (add-hook 'post-command-hook 'major-mode-icons--mode-line-record-selected-window)
@@ -156,19 +146,19 @@
          (name (or (car (cdr match))
                    ;; return current major-mode as string for `propertize'
                    ;; when not in `major-mode-alist'.
-                   mode-name ; "%m"
+                   mode-name ; mode-name, %m
                    ))
          (icon (car (cdr (cdr match)))))
     (list
      (propertize
       (format "%s" name)
-      'face (if (active)
+      'face (if (major-mode-icons--active)
                 '(:foreground "cyan" :height 80)
               'mode-line-inactive)
       'display
       (let ((icon-path
              (concat major-mode-icons--icons-path icon ".xpm")))
-        (if (and (active)
+        (if (and (major-mode-icons--active)
                  (file-exists-p icon-path)
                  (image-type-available-p 'xpm))
             (create-image icon-path 'xpm nil :ascent 'center)))
@@ -177,7 +167,7 @@
      ;;; extra
      (if extra
          (propertize (format "%s" (or extra ""))
-                     'face (if (active)
+                     'face (if (major-mode-icons--active)
                                '(:foreground "DarkGreen")
                              'mode-line-inactive)))
      )
@@ -187,7 +177,7 @@
 (defun major-mode-icons--major-mode-extra ()
   "Extend function `major-mode-icon' with extra info."
   (let ((extra
-         (case major-mode
+         (cl-case major-mode
            ('clojure-mode
             (if (not (equal (cider--modeline-info) "not connected"))
                 (cider--project-name nrepl-project-dir)))

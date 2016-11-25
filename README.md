@@ -6,6 +6,7 @@ Show major-mode with icons on mode-line.
 
 - support many programming languages
 - support show extra of some modes like: Clojure, Ruby, Python etc.
+- only show icon for current selected window, otherwise show mode name.
 
 # Usage
 

@@ -40,39 +40,39 @@
   "Show icon for current buffer's major-mode."
   :group 'mode-line)
 
-(defvar major-mode-icons/icons-default-path
+(defvar major-mode-icons--icons-default-path
   (concat
    (file-name-directory (or load-file-name
                             (buffer-file-name)))
    "icons")
   )
 
-(defcustom major-mode-icons/icons-path major-mode-icons/icons-default-path
+(defcustom major-mode-icons--icons-path major-mode-icons--icons-default-path
   "Path to icons."
   :group 'major-mode-icons)
 
 
 ;;; separate settings for only active mode-line.
 
-(defvar major-mode-icons/mode-line-selected-window nil)
+(defvar major-mode-icons--mode-line-selected-window nil)
 
-(defun major-mode-icons/mode-line-record-selected-window ()
-  (setq major-mode-icons/mode-line-selected-window (selected-window)))
+(defun major-mode-icons--mode-line-record-selected-window ()
+  (setq major-mode-icons--mode-line-selected-window (selected-window)))
 
-(defun major-mode-icons/mode-line-update-all ()
+(defun major-mode-icons--mode-line-update-all ()
   (force-mode-line-update t))
 
-(add-hook 'post-command-hook 'major-mode-icons/mode-line-record-selected-window)
+(add-hook 'post-command-hook 'major-mode-icons--mode-line-record-selected-window)
 
-(add-hook 'buffer-list-update-hook 'major-mode-icons/mode-line-update-all)
+(add-hook 'buffer-list-update-hook 'major-mode-icons--mode-line-update-all)
 
-(defun major-mode-icons/active ()
+(defun major-mode-icons--active ()
   "Detect whether current window is the selected window."
-  (eq major-mode-icons/mode-line-selected-window (selected-window)))
+  (eq major-mode-icons--mode-line-selected-window (selected-window)))
 
 
 ;; major mode with icon
-(defvar major-mode-icons/major-mode-list
+(defvar major-mode-icons--major-mode-list
   '(((emacs-lisp-mode inferior-emacs-lisp-mode) . ("Elisp" "Emacs"))
     ((lisp-mode
       inferior-lisp-mode
@@ -135,7 +135,7 @@
   "Pairs: ([mode-list] . ([name] [icon-name]))."
   )
 
-(defun major-mode-icons/major-mode-list-match ()
+(defun major-mode-icons--major-mode-list-match ()
   "Return the matched item in `major-mode-list'."
   (assoc
    (cl-some ; or use (remove nil '(nil nil (clojure-mode) nil nil ...))
@@ -145,14 +145,14 @@
     (mapcar
      (lambda (element)
        (member major-mode element))
-     (map-keys major-mode-icons/major-mode-list)))
-   major-mode-icons/major-mode-list))
+     (map-keys major-mode-icons--major-mode-list)))
+   major-mode-icons--major-mode-list))
 
 
-(defun major-mode-icons/major-mode-icon (&optional extra)
+(defun major-mode-icons--major-mode-icon (&optional extra)
   "Display icon for current buffer's `major-mode' and `EXTRA' info."
   ;; FIXME: only show icon for first element in major-mode alist.
-  (let* ((match (major-mode-icons/major-mode-list-match))
+  (let* ((match (major-mode-icons--major-mode-list-match))
          (name (or (car (cdr match))
                    ;; return current major-mode as string for `propertize'
                    ;; when not in `major-mode-alist'.
@@ -163,11 +163,11 @@
      (propertize
       (format "%s" name)
       'face (if (active)
-                '(:family "Segoe Print" :foreground "cyan" :height 80)
+                '(:foreground "cyan" :height 80)
               'mode-line-inactive)
       'display
       (let ((icon-path
-             (concat major-mode-icons/icons-path icon ".xpm")))
+             (concat major-mode-icons--icons-path icon ".xpm")))
         (if (and (active)
                  (file-exists-p icon-path)
                  (image-type-available-p 'xpm))
@@ -184,7 +184,7 @@
     ))
 
 ;;; auto show extra info
-(defun major-mode-icons/major-mode-extra ()
+(defun major-mode-icons--major-mode-extra ()
   "Extend function `major-mode-icon' with extra info."
   (let ((extra
          (case major-mode
@@ -204,14 +204,14 @@
            )))))
 
 ;;;###autoload
-(defun major-mode-icons/show ()
+(defun major-mode-icons-show ()
   "Show icon on mode-line."
-  (major-mode-icons/major-mode-icon (major-mode-icons/major-mode-extra)))
+  (major-mode-icons--major-mode-icon (major-mode-icons--major-mode-extra)))
 
 ;;;###autoload
 (define-minor-mode major-mode-icons-mode
   "A minor mode of showing icon for major-mode of current buffer."
-  :lighter 'major-mode-icons/show
+  :lighter 'major-mode-icons-show
   :global t)
 
 ;;; ----------------------------------------------------------------------------

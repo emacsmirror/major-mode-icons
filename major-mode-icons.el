@@ -27,7 +27,7 @@
   (concat
    (file-name-directory (or load-file-name
                             (buffer-file-name)))
-   "icons")
+   "icons/")
   "Default icons path of major-mode-icons.")
 
 (defcustom major-mode-icons--icons-path major-mode-icons--icons-default-path

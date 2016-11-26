@@ -63,7 +63,9 @@
 
 ;; major mode with icon
 (defvar major-mode-icons--major-mode-list
-  '(((emacs-lisp-mode inferior-emacs-lisp-mode) . ("Elisp" "Emacs"))
+  '(((emacs-lisp-mode
+      inferior-emacs-lisp-mode
+      ielm-mode) . ("Elisp" "Emacs"))
     ((lisp-mode
       inferior-lisp-mode
       slime-repl-mode sly-mrepl-mode) . ("Lisp" "Common-Lisp"))

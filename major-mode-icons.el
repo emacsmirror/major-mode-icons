@@ -11,6 +11,13 @@
 
 ;;; Commentary:
 
+;; If you want to use `major-mode-icons--major-mode-extra' extra info, you
+;; should install corresponding packages.
+;;
+;; - clojure-mode <-> cider
+;; - ruby-mode <-> rbenv
+;; - python-mode <-> pyvenv
+
 
 ;;; Code:
 ;;; ----------------------------------------------------------------------------
@@ -180,14 +187,15 @@
   (let ((extra
          (cl-case major-mode
            ('clojure-mode
-            (if (not (equal (cider--modeline-info) "not connected"))
+            (if (and (featurep 'cider)
+                     (not (equal (cider--modeline-info) "not connected")))
                 (cider--project-name nrepl-project-dir)))
            ('enh-ruby-mode
-            (if global-rbenv-mode
+            (if (and (featurep 'rbenv) global-rbenv-mode)
                 (rbenv--active-ruby-version) ; `rbenv--modestring'
               ))
            ('python-mode
-            (if pyvenv-mode
+            (if (and (featurep 'pyvenv) pyvenv-mode)
                 ;; `pyvenv-mode-line-indicator' -> `pyvenv-virtual-env-name'
                 pyvenv-virtual-env-name
               ;; conda: `conda-env-current-name'

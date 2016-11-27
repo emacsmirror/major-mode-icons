@@ -1,9 +1,7 @@
 ;;; major-mode-icons.el --- display icon for major-mode on mode-line.
 
-;;; Commentary:
-
 ;; Authors: stardiviner <numbchild@gmail.com>
-;; Package-Requires: ((emacs "25.1") (cl-lib "0.5"))
+;; Package-Requires: ((emacs "25.1"))
 ;; Version: 0.1
 ;; Keywords: frames multimedia
 ;; homepage: http://github.com/stardiviner/major-mode-icons
@@ -11,12 +9,13 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
 
 ;;; Code:
 ;;; ----------------------------------------------------------------------------
 
 (require 'cl-lib)
-(require 'cl-extra)
 (require 'map) ; `map-keys'
 
 (defgroup major-mode-icons nil

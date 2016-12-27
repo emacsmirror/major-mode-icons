@@ -95,7 +95,7 @@
     ((javascript-mode
       js-mode js2-mode js3-mode inferior-js-mode) . "JavaScript")
     ((coffee-mode) . "CoffeeScript")
-    ((org-mode) . "Org-mode")
+    ((org-mode org-agenda-mode) . "Org-mode")
     ((tex-mode latex-mode TeX-mode LaTeX-mode) . "TeX")
     ((bibtex-mode) . "BibTeX")
     ((markdown-mode) . "Markdown")

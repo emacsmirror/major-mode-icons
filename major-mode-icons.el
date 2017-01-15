@@ -204,6 +204,7 @@
 ;;;###autoload
 (define-minor-mode major-mode-icons-mode
   "A minor mode of showing icon for major-mode of current buffer."
+  :init-value t
   :lighter 'major-mode-icons-show
   :global t)
 

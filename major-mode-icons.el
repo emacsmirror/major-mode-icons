@@ -201,11 +201,36 @@
   "Show icon on mode-line."
   (major-mode-icons--major-mode-icon (major-mode-icons--major-mode-extra)))
 
+(defvar major-mode-icons-lighter
+  (let* ((match (major-mode-icons--major-mode-list-match))
+         (icon (cdr match)))
+    (list " "
+          (propertize (format "%s" mode-name) ; display `mode-name' text.
+                      'face `(if (major-mode-icons--active)
+                                 'font-lock-keyword-face
+                               'mode-line-inactive)
+                      'display
+                      (let ((icon-path
+                             (concat major-mode-icons--icons-path icon ".xpm")))
+                        (if (and (image-type-available-p 'xpm)
+                                 (major-mode-icons--active)
+                                 (file-exists-p icon-path))
+                            (create-image icon-path 'xpm nil :ascent 'center)
+                          ;; `(image :type imagemagick
+                          ;;         :file ,(expand-file-name "..") ; TODO:
+                          ;;         )
+                          ))
+                      )
+          " "))
+  "Lighter for minor mode `major-mode-icons'.")
+
+(put 'major-mode-icons-lighter 'risky-local-variable t)
+
 ;;;###autoload
 (define-minor-mode major-mode-icons-mode
   "A minor mode of showing icon for major-mode of current buffer."
   :init-value t
-  :lighter 'major-mode-icons-show
+  :lighter major-mode-icons-lighter
   :global t)
 
 ;;; ----------------------------------------------------------------------------

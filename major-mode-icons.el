@@ -36,12 +36,12 @@
    "icons/")
   "Default icons path of major-mode-icons.")
 
-(defcustom major-mode-icons--icons-path major-mode-icons--icons-default-path
+(defcustom major-mode-icons-icons-path major-mode-icons--icons-default-path
   "Path to icons."
   :group 'major-mode-icons
   :type 'string)
 
-(defcustom major-mode-icons--mode-name-font "Segoe Print"
+(defcustom major-mode-icons-mode-name-font "Segoe Print"
   "The font family used for major mode name."
   :group 'major-mode-icons)
 
@@ -50,17 +50,17 @@
 
 (defvar major-mode-icons--mode-line-selected-window nil)
 
-(defun major-mode-icons--mode-line-record-selected-window ()
+(defun major-mode-icons-mode-line-record-selected-window ()
   "Record the current selected window."
   (setq major-mode-icons--mode-line-selected-window (selected-window)))
 
-(defun major-mode-icons--mode-line-update-all ()
+(defun major-mode-icons-mode-line-update-all ()
   "Force update mode-line."
   (force-mode-line-update t))
 
-(add-hook 'post-command-hook 'major-mode-icons--mode-line-record-selected-window)
+(add-hook 'post-command-hook 'major-mode-icons-mode-line-record-selected-window)
 
-(add-hook 'buffer-list-update-hook 'major-mode-icons--mode-line-update-all)
+(add-hook 'buffer-list-update-hook 'major-mode-icons-mode-line-update-all)
 
 (defun major-mode-icons--active ()
   "Detect whether current window is the selected window."
@@ -159,7 +159,7 @@
               'mode-line-inactive)
       'display
       (let ((icon-path
-             (concat major-mode-icons--icons-path icon ".xpm")))
+             (concat major-mode-icons-icons-path icon ".xpm")))
         (if (and (major-mode-icons--active)
                  (file-exists-p icon-path)
                  (image-type-available-p 'xpm))
@@ -211,7 +211,7 @@
                                'mode-line-inactive)
                       'display
                       (let ((icon-path
-                             (concat major-mode-icons--icons-path icon ".xpm")))
+                             (concat major-mode-icons-icons-path icon ".xpm")))
                         (if (and (image-type-available-p 'xpm)
                                  (major-mode-icons--active)
                                  (file-exists-p icon-path))

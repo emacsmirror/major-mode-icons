@@ -43,7 +43,8 @@
 
 (defcustom major-mode-icons-mode-name-font "Segoe Print"
   "The font family used for major mode name."
-  :group 'major-mode-icons)
+  :group 'major-mode-icons
+  :type 'string)
 
 
 ;;; separate settings for only active mode-line.

@@ -126,25 +126,18 @@
 
 (defun major-mode-icons--major-mode-icon (&optional extra)
   "Display icon for current buffer's `major-mode' and `EXTRA' info."
-  ;; FIXME: only show icon for first element in major-mode alist.
   (let* ((match (major-mode-icons--major-mode-list-match))
-         (icon (cdr match)))
-    (list
-     (propertize
-      (format "%s" mode-name)
-      'display
-      (let ((icon-path
-             (concat major-mode-icons-icons-path icon ".xpm")))
-        (if (and (file-exists-p icon-path)
-                 (image-type-available-p 'xpm))
-            (create-image icon-path 'xpm nil :ascent 'center)))
-      )
-     (propertize " ")
+         (icon (cdr match))
+         (icon-path (concat major-mode-icons-icons-path icon ".xpm")))
+    (concat
+     (propertize (format "%s" mode-name)
+                 'display (if (and (file-exists-p icon-path) (image-type-available-p 'xpm))
+                              (create-image icon-path 'xpm nil :ascent 'center)))
      ;;; extra
      (if extra
-         (propertize (format "%s" (or extra ""))))
-     )
-    ))
+         (propertize (format " %s" (or extra "")))
+       "")
+     )))
 
 ;;; auto show extra info
 (defun major-mode-icons--major-mode-extra ()

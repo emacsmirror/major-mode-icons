@@ -45,28 +45,6 @@
   "The font family used for major mode name."
   :group 'major-mode-icons)
 
-
-;;; separate settings for only active mode-line.
-
-(defvar major-mode-icons--mode-line-selected-window nil)
-
-(defun major-mode-icons-mode-line-record-selected-window ()
-  "Record the current selected window."
-  (setq major-mode-icons--mode-line-selected-window (selected-window)))
-
-(defun major-mode-icons-mode-line-update-all ()
-  "Force update mode-line."
-  (force-mode-line-update t))
-
-(add-hook 'post-command-hook 'major-mode-icons-mode-line-record-selected-window)
-
-(add-hook 'buffer-list-update-hook 'major-mode-icons-mode-line-update-all)
-
-(defun major-mode-icons--active ()
-  "Detect whether current window is the selected window."
-  (eq major-mode-icons--mode-line-selected-window (selected-window)))
-
-
 ;; major mode with icon
 (defvar major-mode-icons--major-mode-list
   '(((emacs-lisp-mode
@@ -154,24 +132,17 @@
     (list
      (propertize
       (format "%s" mode-name)
-      'face (if (major-mode-icons--active)
-                '(:foreground "cyan" :height 80)
-              'mode-line-inactive)
       'display
       (let ((icon-path
              (concat major-mode-icons-icons-path icon ".xpm")))
-        (if (and (major-mode-icons--active)
-                 (file-exists-p icon-path)
+        (if (and (file-exists-p icon-path)
                  (image-type-available-p 'xpm))
             (create-image icon-path 'xpm nil :ascent 'center)))
       )
      (propertize " ")
      ;;; extra
      (if extra
-         (propertize (format "%s" (or extra ""))
-                     'face (if (major-mode-icons--active)
-                               '(:foreground "DarkGreen")
-                             'mode-line-inactive)))
+         (propertize (format "%s" (or extra ""))))
      )
     ))
 
@@ -204,24 +175,14 @@
 (defvar major-mode-icons-lighter
   (let* ((match (major-mode-icons--major-mode-list-match))
          (icon (cdr match)))
-    (list " "
-          (propertize (format "%s" mode-name) ; display `mode-name' text.
-                      'face `(if (major-mode-icons--active)
-                                 'font-lock-keyword-face
-                               'mode-line-inactive)
-                      'display
-                      (let ((icon-path
-                             (concat major-mode-icons-icons-path icon ".xpm")))
-                        (if (and (image-type-available-p 'xpm)
-                                 (major-mode-icons--active)
-                                 (file-exists-p icon-path))
-                            (create-image icon-path 'xpm nil :ascent 'center)
-                          ;; `(image :type imagemagick
-                          ;;         :file ,(expand-file-name "..") ; TODO:
-                          ;;         )
-                          ))
-                      )
-          " "))
+    (propertize (format " %s " mode-name) ; display `mode-name' text.
+                'display
+                (let ((icon-path
+                       (concat major-mode-icons-icons-path icon ".xpm")))
+                  (if (and (image-type-available-p 'xpm)
+                           (file-exists-p icon-path))
+                      (create-image icon-path 'xpm nil :ascent 'center)
+                    ))))
   "Lighter for minor mode `major-mode-icons'.")
 
 (put 'major-mode-icons-lighter 'risky-local-variable t)

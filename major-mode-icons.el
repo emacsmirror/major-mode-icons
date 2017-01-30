@@ -130,9 +130,13 @@
          (icon (cdr match))
          (icon-path (concat major-mode-icons-icons-path icon ".xpm")))
     (concat
-     (propertize (format "%s" mode-name)
-                 'display (if (and (file-exists-p icon-path) (image-type-available-p 'xpm))
-                              (create-image icon-path 'xpm nil :ascent 'center)))
+     (if (and (file-exists-p icon-path) (image-type-available-p 'xpm))
+         (propertize
+          "  "
+          'display (if (and (file-exists-p icon-path) (image-type-available-p 'xpm))
+                       (create-image icon-path 'xpm nil :ascent 'center)))
+       (propertize (format "%s" mode-name))
+       )
      ;;; extra
      (if extra
          (propertize (format " %s" (or extra "")))

@@ -23,7 +23,6 @@
 ;;; ----------------------------------------------------------------------------
 
 (require 'cl-lib)
-(require 'map) ; `map-keys'
 
 (defgroup major-mode-icons nil
   "Show icon for current buffer's major-mode."
@@ -122,7 +121,7 @@
     (mapcar
      (lambda (element)
        (member major-mode element))
-     (map-keys major-mode-icons--major-mode-list)))
+     (mapcar 'car major-mode-icons--major-mode-list)))
    major-mode-icons--major-mode-list))
 
 (defun major-mode-icons--major-mode-icon (&optional extra)

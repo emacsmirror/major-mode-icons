@@ -134,8 +134,18 @@
          (propertize
           "  "
           'display (if (and (file-exists-p icon-path) (image-type-available-p 'xpm))
-                       (create-image icon-path 'xpm nil :ascent 'center)))
-       (propertize (format "%s" mode-name))
+                       (create-image icon-path 'xpm nil :ascent 'center))
+          'mouse-face 'mode-line-highlight
+          'help-echo "Major-mode\n\ mouse-1: Display major mode menu\n\ mouse2: Show help for major mode\n\ mouse-3: Toggle minor modes"
+          'local-map (let ((map (make-sparse-keymap)))
+                       (define-key map [mode-line down-mouse-1]
+                         `(menu-item ,(purecopy "Menu Bar") ignore
+                                     :filter (lambda (_) (mouse-menu-major-mode-map))))
+                       (define-key map [mode-line mouse-2] 'describe-mode)
+                       (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
+                       map)
+          )
+       (propertize (format-mode-line mode-name))
        )
      ;;; extra
      (if extra
@@ -169,17 +179,27 @@
   "Show icon on mode-line."
   (major-mode-icons--major-mode-icon (major-mode-icons--major-mode-extra)))
 
+;;;###autoload
 (defvar major-mode-icons-lighter
   (let* ((match (major-mode-icons--major-mode-list-match))
          (icon (cdr match)))
-    (propertize (format " %s " mode-name) ; display `mode-name' text.
-                'display
+    (propertize (format-mode-line mode-name) ; display `mode-name' text.
+                'display ; display icon
                 (let ((icon-path
                        (concat major-mode-icons-icons-path icon ".xpm")))
                   (if (and (image-type-available-p 'xpm)
                            (file-exists-p icon-path))
                       (create-image icon-path 'xpm nil :ascent 'center)
-                    ))))
+                    ))
+                'mouse-face 'mode-line-highlight
+                'help-echo "Major-mode\n\ mouse-1: Display major mode menu\n\ mouse2: Show help for major mode\n\ mouse-3: Toggle minor modes"
+                'local-map (let ((map (make-sparse-keymap)))
+                             (define-key map [mode-line down-mouse-1]
+                               `(menu-item ,(purecopy "Menu Bar") ignore
+                                           :filter (lambda (_) (mouse-menu-major-mode-map))))
+                             (define-key map [mode-line mouse-2] 'describe-mode)
+                             (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
+                             map)))
   "Lighter for minor mode `major-mode-icons'.")
 
 (put 'major-mode-icons-lighter 'risky-local-variable t)

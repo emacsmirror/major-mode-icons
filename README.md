@@ -23,6 +23,12 @@ If you use `use-package`:
   (major-mode-icons-mode 1))
 ```
 
+## mode :lighter
+
+Minor mode `major-mode-icons-mode` has a `:lighter` support.
+
+## user custom mode-line
+
 If you use a customize mode-line:
 
 ```elisp
@@ -33,3 +39,8 @@ If you use a customize mode-line:
     (major-mode-icons/show))
     )))
 ```
+
+## powerline
+
+Also suppoer powerline with segment name `powerline-major-mode-icons`.
+

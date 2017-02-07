@@ -2,6 +2,10 @@
 
 Show major-mode with icons on mode-line.
 
+# Screenshot
+
+![Screenshot](screenshot.png)
+
 # Features
 
 - support many programming languages

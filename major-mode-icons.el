@@ -112,6 +112,7 @@
   "Pairs: ([mode-list] . [icon-name])."
   )
 
+;;;###autoload
 (defun major-mode-icons--major-mode-list-match ()
   "Return the matched item in `major-mode-list'."
   (assoc

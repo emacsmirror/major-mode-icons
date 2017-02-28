@@ -46,6 +46,18 @@
   :group 'major-mode-icons
   :type 'string)
 
+(defcustom major-mode-icons-icons-style 'xpm
+  "Use `all-the-icons' package to show major mode icons.
+
+If set to symbol `all-the-icons' then use `all-the-icons'.
+Otherwise symbol `xpm' to use built-in xpm image files."
+  :group 'major-mode-icons
+  :type 'string)
+
+(require (pcase major-mode-icons-icons-style
+           (`all-the-icons 'all-the-icons)
+           (`xpm 'xpm)))
+
 ;; major mode with icon
 (defvar major-mode-icons--major-mode-list
   '(((emacs-lisp-mode

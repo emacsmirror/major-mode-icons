@@ -1,7 +1,7 @@
 ;;; major-mode-icons.el --- display icon for major-mode on mode-line.
 
 ;; Authors: stardiviner <numbchild@gmail.com>
-;; Package-Requires: ((emacs "25.1") (powerline "2.4"))
+;; Package-Requires: ((emacs "24.3") (powerline "2.4"))
 ;; Version: 0.2
 ;; Keywords: frames multimedia
 ;; homepage: http://github.com/stardiviner/major-mode-icons

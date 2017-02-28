@@ -2,7 +2,7 @@
 
 ;; Authors: stardiviner <numbchild@gmail.com>
 ;; Package-Requires: ((emacs "25.1") (powerline "2.4"))
-;; Version: 0.1
+;; Version: 0.2
 ;; Keywords: frames multimedia
 ;; homepage: http://github.com/stardiviner/major-mode-icons
 

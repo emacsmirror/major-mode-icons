@@ -46,6 +46,7 @@
   :group 'major-mode-icons
   :type 'string)
 
+;;;###autoload
 (defcustom major-mode-icons-icons-style 'xpm
   "Use `all-the-icons' package to show major mode icons.
 

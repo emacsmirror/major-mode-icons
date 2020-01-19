@@ -48,14 +48,13 @@
   :group 'major-mode-icons
   :type 'string)
 
-;;;###autoload
 (defcustom major-mode-icons-icons-style 'xpm
   "Use `all-the-icons' package to show major mode icons.
 
 If set to symbol `all-the-icons' then use `all-the-icons'.
 Otherwise symbol `xpm' to use built-in xpm image files."
   :group 'major-mode-icons
-  :type 'string)
+  :type 'symbol)
 
 ;; major mode with icon
 (defvar major-mode-icons--major-mode-list

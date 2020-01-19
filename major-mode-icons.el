@@ -24,6 +24,8 @@
 
 (require 'cl-lib)
 (require 'powerline)
+(require 'xpm)
+(require 'all-the-icons)
 
 (defgroup major-mode-icons nil
   "Show icon for current buffer's major-mode."
@@ -54,10 +56,6 @@ If set to symbol `all-the-icons' then use `all-the-icons'.
 Otherwise symbol `xpm' to use built-in xpm image files."
   :group 'major-mode-icons
   :type 'string)
-
-(require (pcase major-mode-icons-icons-style
-           (`all-the-icons 'all-the-icons)
-           (`xpm 'xpm)))
 
 ;; major mode with icon
 (defvar major-mode-icons--major-mode-list

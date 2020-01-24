@@ -1,4 +1,4 @@
-;;; major-mode-icons.el --- display icon for major-mode on mode-line.
+;;; major-mode-icons.el --- Display icon for major-mode on mode-line
 
 ;; Authors: stardiviner <numbchild@gmail.com>
 ;; Package-Requires: ((emacs "24.3") (powerline "2.4") (xpm "1.0.4") (all-the-icons "2.3.0"))
@@ -117,12 +117,9 @@ Otherwise symbol `xpm' to use built-in xpm image files."
     ((projectile-rails-mode) . "Rails")
     ((slim-mode) . "Slim")
     ((sass-mode) . "Sass")
-    ((spice-mode) . "Electric")
-    )
-  "Pairs: ([mode-list] . [icon-name])."
-  )
+    ((spice-mode) . "Electric"))
+  "Pairs: ([mode-list] . [icon-name]).")
 
-;;;###autoload
 (defun major-mode-icons--major-mode-list-match ()
   "Return the matched item in `major-mode-list'."
   (assoc
@@ -155,17 +152,21 @@ Otherwise symbol `xpm' to use built-in xpm image files."
                                      :filter (lambda (_) (mouse-menu-major-mode-map))))
                        (define-key map [mode-line mouse-2] 'describe-mode)
                        (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
-                       map)
-          )
-       (propertize (format-mode-line mode-name))
-       )
+                       map))
+       (propertize (format-mode-line mode-name)))
      ;;; extra
      (if extra
          (propertize (format " %s" (or extra "")))
-       "")
-     )))
+       ""))))
 
 ;;; auto show extra info
+(defvar nrepl-project-dir)
+(defvar global-rbenv-mode)
+(defvar pyvenv-mode)
+(defvar pyvenv-virtual-env-name)
+(declare-function cider--modeline-info "cider")
+(declare-function cider--project-name "cider")
+(declare-function rbenv--active-ruby-version "rbenv")
 (defun major-mode-icons--major-mode-extra ()
   "Extend function `major-mode-icon' with extra info."
   (let ((extra
@@ -176,15 +177,11 @@ Otherwise symbol `xpm' to use built-in xpm image files."
                 (cider--project-name nrepl-project-dir)))
            ('enh-ruby-mode
             (if (and (featurep 'rbenv) global-rbenv-mode)
-                (rbenv--active-ruby-version) ; `rbenv--modestring'
-              ))
+                (rbenv--active-ruby-version))) ; `rbenv--modestring'
            ('python-mode
             (if (and (featurep 'pyvenv) pyvenv-mode)
                 ;; `pyvenv-mode-line-indicator' -> `pyvenv-virtual-env-name'
-                pyvenv-virtual-env-name
-              ;; conda: `conda-env-current-name'
-              ))
-           )))))
+                pyvenv-virtual-env-name)))))))  ;; conda: `conda-env-current-name'
 
 ;;;###autoload
 (defun major-mode-icons-show ()
@@ -226,8 +223,7 @@ Otherwise symbol `xpm' to use built-in xpm image files."
      ;; - `all-the-icons-icon-for-buffer'
      ;; - `all-the-icons-icon-for-file'
      ;; - `all-the-icons-icon-for-mode'
-     (all-the-icons-icon-for-buffer)
-     )
+     (all-the-icons-icon-for-buffer))
     (`xpm
      (let* ((match (major-mode-icons--major-mode-list-match))
             (icon (cdr match)))
@@ -237,8 +233,7 @@ Otherwise symbol `xpm' to use built-in xpm image files."
                           (concat major-mode-icons-icons-path icon ".xpm")))
                      (if (and (image-type-available-p 'xpm)
                               (file-exists-p icon-path))
-                         (create-image icon-path 'xpm nil :ascent 'center)
-                       ))
+                         (create-image icon-path 'xpm nil :ascent 'center)))
                    'mouse-face 'mode-line-highlight
                    'help-echo "Major-mode\n\ mouse-1: Display major mode menu\n\ mouse2: Show help for major mode\n\ mouse-3: Toggle minor modes"
                    'local-map (let ((map (make-sparse-keymap)))
@@ -247,8 +242,7 @@ Otherwise symbol `xpm' to use built-in xpm image files."
                                               :filter (lambda (_) (mouse-menu-major-mode-map))))
                                 (define-key map [mode-line mouse-2] 'describe-mode)
                                 (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
-                                map))))
-    )
+                                map)))))
   "Lighter for minor mode `major-mode-icons'.")
 
 (put 'major-mode-icons-lighter 'risky-local-variable t)

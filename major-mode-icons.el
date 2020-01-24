@@ -1,7 +1,7 @@
 ;;; major-mode-icons.el --- display icon for major-mode on mode-line.
 
 ;; Authors: stardiviner <numbchild@gmail.com>
-;; Package-Requires: ((emacs "24.3") (powerline "2.4") (all-the-icons "2.3.0"))
+;; Package-Requires: ((emacs "24.3") (powerline "2.4") (xpm "1.0.4") (all-the-icons "2.3.0"))
 ;; Version: 0.2
 ;; Keywords: frames multimedia
 ;; homepage: http://github.com/stardiviner/major-mode-icons
@@ -24,6 +24,8 @@
 
 (require 'cl-lib)
 (require 'powerline)
+(require 'xpm)
+(require 'all-the-icons)
 
 (defgroup major-mode-icons nil
   "Show icon for current buffer's major-mode."
@@ -46,18 +48,13 @@
   :group 'major-mode-icons
   :type 'string)
 
-;;;###autoload
 (defcustom major-mode-icons-icons-style 'xpm
   "Use `all-the-icons' package to show major mode icons.
 
 If set to symbol `all-the-icons' then use `all-the-icons'.
 Otherwise symbol `xpm' to use built-in xpm image files."
   :group 'major-mode-icons
-  :type 'string)
-
-(require (pcase major-mode-icons-icons-style
-           (`all-the-icons 'all-the-icons)
-           (`xpm 'xpm)))
+  :type 'symbol)
 
 ;; major mode with icon
 (defvar major-mode-icons--major-mode-list

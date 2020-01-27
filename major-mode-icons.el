@@ -183,7 +183,6 @@ Otherwise symbol `xpm' to use built-in xpm image files."
                 ;; `pyvenv-mode-line-indicator' -> `pyvenv-virtual-env-name'
                 pyvenv-virtual-env-name)))))))  ;; conda: `conda-env-current-name'
 
-;;;###autoload
 (defun major-mode-icons-show ()
   "Show icon on mode-line."
   (cl-case major-mode-icons-icons-style
@@ -192,7 +191,6 @@ Otherwise symbol `xpm' to use built-in xpm image files."
     (`xpm
      (major-mode-icons--major-mode-icon (major-mode-icons--major-mode-extra)))))
 
-;;;###autoload
 (defpowerline powerline-major-mode-icons
   (cl-case major-mode-icons-icons-style
     (`all-the-icons
@@ -216,7 +214,6 @@ Otherwise symbol `xpm' to use built-in xpm image files."
                                 (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
                                 map))))))
 
-;;;###autoload
 (defvar major-mode-icons-lighter
   (cl-case major-mode-icons-icons-style
     (`all-the-icons
